@@ -45,5 +45,10 @@ const options = {
 
 const swaggerSpec = swaggerJsdoc(options);
 
+// Debug: Log số lượng paths được scan
+if (process.env.NODE_ENV !== 'production') {
+  console.log('Swagger paths found:', Object.keys(swaggerSpec.paths || {}).length);
+}
+
 module.exports = swaggerSpec;
 
