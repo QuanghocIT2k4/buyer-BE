@@ -7,6 +7,10 @@ const userSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    fullName: {
+      type: String,
+      trim: true,
+    },
     email: {
       type: String,
       required: true,
@@ -17,6 +21,14 @@ const userSchema = new mongoose.Schema(
     passwordHash: {
       type: String,
       required: true,
+    },
+    phone: {
+      type: String,
+      trim: true,
+      maxLength: 10,
+    },
+    dateOfBirth: {
+      type: Date,
     },
   },
   {
