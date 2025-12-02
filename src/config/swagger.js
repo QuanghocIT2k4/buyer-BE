@@ -1,4 +1,5 @@
 const swaggerJsdoc = require('swagger-jsdoc');
+const path = require('path');
 
 const options = {
   definition: {
@@ -38,16 +39,18 @@ const options = {
     ],
   },
   apis: [
-    './src/routes/*.js',
-    './src/controllers/*.js',
+    path.join(__dirname, '../routes/*.js'),
+    path.join(__dirname, '../controllers/*.js'),
   ], // Paths to files containing OpenAPI definitions
 };
 
 const swaggerSpec = swaggerJsdoc(options);
 
-// Debug: Log số lượng paths được scan
-if (process.env.NODE_ENV !== 'production') {
-  console.log('Swagger paths found:', Object.keys(swaggerSpec.paths || {}).length);
+// Debug: Log số lượng paths được scan (cả production)
+const pathsCount = Object.keys(swaggerSpec.paths || {}).length;
+console.log('Swagger paths found:', pathsCount);
+if (pathsCount === 0) {
+  console.error('WARNING: No Swagger paths found! Check apis paths in swagger.js');
 }
 
 module.exports = swaggerSpec;
