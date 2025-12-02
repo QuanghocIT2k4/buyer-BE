@@ -26,12 +26,12 @@ app.get('/', (req, res) => {
       cart: '/api/cart',
       orders: '/api/orders',
     },
-    documentation: '/api-docs',
+    documentation: '/swagger-ui/index.html',
   });
 });
 
 // Swagger UI
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/swagger-ui', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
