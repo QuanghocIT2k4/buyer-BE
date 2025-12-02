@@ -44,12 +44,13 @@ app.get('/swagger.json', (req, res) => {
   res.send(swaggerSpec);
 });
 
-// Swagger UI
+// Swagger UI - Use URL endpoint instead of passing spec directly
 const swaggerUiOptions = {
-  customCss: '.swagger-ui .topbar { display: none }',
-  customSiteTitle: 'Buyer Backend API Documentation',
+  swaggerOptions: {
+    url: '/swagger.json', // Load from our endpoint
+  },
 };
-app.use('/swagger-ui', swaggerUi.serve, swaggerUi.setup(swaggerSpec, swaggerUiOptions));
+app.use('/swagger-ui', swaggerUi.serve, swaggerUi.setup(null, swaggerUiOptions));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
