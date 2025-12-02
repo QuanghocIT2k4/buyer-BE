@@ -1,6 +1,8 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./config/swagger');
 const connectDB = require('./config/db');
 const errorHandler = require('./middlewares/errorHandler');
 const authRoutes = require('./routes/authRoutes');
@@ -24,8 +26,12 @@ app.get('/', (req, res) => {
       cart: '/api/cart',
       orders: '/api/orders',
     },
+    documentation: '/api-docs',
   });
 });
+
+// Swagger UI
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
