@@ -44,13 +44,34 @@ const options = {
   ], // Paths to files containing OpenAPI definitions
 };
 
-const swaggerSpec = swaggerJsdoc(options);
-
-// Debug: Log số lượng paths được scan (cả production)
-const pathsCount = Object.keys(swaggerSpec.paths || {}).length;
-console.log('Swagger paths found:', pathsCount);
-if (pathsCount === 0) {
-  console.error('WARNING: No Swagger paths found! Check apis paths in swagger.js');
+let swaggerSpec;
+try {
+  swaggerSpec = swaggerJsdoc(options);
+  const pathsCount = Object.keys(swaggerSpec.paths || {}).length;
+  console.log('✅ Swagger spec generated successfully');
+  console.log('📊 Swagger paths found:', pathsCount);
+  console.log('📝 Swagger title:', swaggerSpec.info?.title);
+  
+  if (pathsCount === 0) {
+    console.error('❌ WARNING: No Swagger paths found!');
+    console.error('📁 Checking apis paths:', options.apis);
+    console.error('📂 __dirname:', __dirname);
+  } else {
+    console.log('✅ Sample paths:', Object.keys(swaggerSpec.paths).slice(0, 5));
+  }
+} catch (error) {
+  console.error('❌ ERROR generating Swagger spec:', error.message);
+  console.error(error.stack);
+  // Fallback: create empty spec to prevent crash
+  swaggerSpec = {
+    openapi: '3.0.0',
+    info: {
+      title: 'Buyer Backend API',
+      version: '1.0.0',
+      description: 'Error loading Swagger spec',
+    },
+    paths: {},
+  };
 }
 
 module.exports = swaggerSpec;

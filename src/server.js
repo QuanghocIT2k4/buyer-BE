@@ -38,6 +38,12 @@ app.get('/', (req, res) => {
   });
 });
 
+// Expose Swagger spec JSON for debugging
+app.get('/swagger.json', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
+});
+
 // Swagger UI
 const swaggerUiOptions = {
   customCss: '.swagger-ui .topbar { display: none }',
