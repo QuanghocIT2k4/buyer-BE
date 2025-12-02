@@ -39,7 +39,11 @@ app.get('/', (req, res) => {
 });
 
 // Swagger UI
-app.use('/swagger-ui', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+const swaggerUiOptions = {
+  customCss: '.swagger-ui .topbar { display: none }',
+  customSiteTitle: 'Buyer Backend API Documentation',
+};
+app.use('/swagger-ui', swaggerUi.serve, swaggerUi.setup(swaggerSpec, swaggerUiOptions));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
